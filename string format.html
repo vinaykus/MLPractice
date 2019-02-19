@@ -1,0 +1,398 @@
+
+.<HTML>
+<HEAD>
+	<TITLE>
+		String Formatter v3.0
+	</TITLE>
+ 
+<script> 
+<!--
+	function generate()
+		{
+			var inputstring = document.getElementById("str1").value;
+			//alert(inputstring);
+			var convertedstring = "";
+			
+			if (select[0].checked)
+			{
+				convertedstring = inputstring.replace(/\n/g, "");
+				convertedstring = convertedstring.replace(/\t/g, "");
+				convertedstring = convertedstring.replace(/ /g, "");
+				document.getElementById("str2").value=convertedstring;
+			}
+ 
+ 
+			if (select[1].checked)
+			{
+				inputstring = inputstring.replace(/\t/g, "");
+				inputstring = inputstring.replace(/ /g, "");
+				inputstring = inputstring.replace(/\n/g, "|");
+ 
+				for (i=0; i<inputstring.length; i++)
+				{
+					char = inputstring.charAt(i);
+					if ((char == "|"))
+					{
+						if (i == (inputstring.length - 1))
+						{
+						}
+						else
+						{
+							if (inputstring.charAt(i+1)== "|")
+							{
+							}
+							else
+							{
+								if (datatype[0].checked)
+								{
+									convertedstring += ",";
+								}
+								else
+								{
+									convertedstring += "','";
+								}
+							}
+						}
+					}				
+					else
+					{
+						convertedstring += char;
+					}
+				}
+				if (datatype[0].checked)
+				{
+					convertedstring = "(" + convertedstring + ")";						
+				}
+				else
+				{
+					convertedstring = "('" + convertedstring + "')";						
+				}
+				document.getElementById("str2").value=convertedstring;
+			}
+ 
+ 
+			if (select[2].checked)
+			{
+				inputstring = inputstring.replace(/\t/g, "");
+				inputstring = inputstring.replace(/\n/g, "|");
+ 
+				for (i=0; i<inputstring.length; i++)
+				{
+					char = inputstring.charAt(i);
+					if ((char == "|"))
+					{
+						if (i == (inputstring.length - 1))
+						{
+						}
+						else
+						{
+							if (inputstring.charAt(i+1)== "|")
+							{
+							}
+							else
+							{
+								convertedstring += "\r\n";
+							}
+						}
+					}				
+					else
+					{
+						convertedstring += char;
+					}
+				}
+				document.getElementById("str2").value=convertedstring;
+			}
+       
+    if (select[3].checked)                                                              
+    {                                                                                   
+    	inputstring = inputstring.replace(/\t/g, "");                                     
+    	inputstring = inputstring.replace(/\n/g, "#");                                  
+                                                                                        
+    	for (i=0; i<inputstring.length; i++)                                              
+    	{                                                                                 
+    		char = inputstring.charAt(i);                                                   
+    		if ((char == "#"))                                                              
+    		{                                                                               
+    			if (i == (inputstring.length - 1))                                            
+    			{                                                                             
+    			}                                                                             
+    			else                                                                          
+    			{                                                                             
+    				if (inputstring.charAt(i+1)== "#")                                          
+    				{                                                                           
+    				}                                                                           
+    				else                                                                        
+    				{                                                                           
+    					convertedstring += "|";                                                
+    				}                                                                           
+    			}                                                                             
+    		}				                                                                        
+    		else                                                                            
+    		{                                                                               
+    			convertedstring += char;                                                      
+    		}                                                                               
+    	}   
+    	convertedstring = "'" + convertedstring + "'";	                                                                              
+    	document.getElementById("str2").value=convertedstring;                            
+    }                                                                                   
+    
+    if (select[4].checked)                                         
+    {                                                              
+    	inputstring = inputstring.replace(/\t/g, "");                
+    	inputstring = inputstring.replace(/\n/g, "|");             
+                                                                   
+    	for (i=0; i<inputstring.length; i++)                         
+    	{                                                            
+    		char = inputstring.charAt(i);                              
+    		if ((char == "|"))                                         
+    		{                                                          
+    			if (i == (inputstring.length - 1))                       
+    			{                                                        
+    			}                                                        
+    			else                                                     
+    			{                                                        
+    				if (inputstring.charAt(i+1)== "|")                     
+    				{                                                      
+    				}                                                      
+    				else                                                   
+    				{                   
+    					if (datatype[3].checked) 
+    					{                                  
+    					convertedstring += " Or ";   
+    					}      
+    					else
+    					{      
+    						convertedstring += " And ";   
+    					}	         
+    				}                                                      
+    			}                                                        
+    		}				                                                   
+    		else                                                       
+    		{                                                          
+    			convertedstring += char;                                 
+    		}                                                          
+    	}                                                            
+    	document.getElementById("str2").value=convertedstring;       
+    }                                                              
+       
+       
+	}
+ 
+		function clean()
+		{
+			document.getElementById("str1").value="";
+			document.getElementById("str2").value="";
+			//select[0].checked = true;
+			//datatype[0].checked = true;
+		}
+		
+		function help_option1()
+		{
+			txt="A lot of times we get a string like below as the connect string to an oracle instance. ";
+			txt+="\r\n";
+			txt+="\r\n(DESCRIPTION= ";
+			txt+="\r\n              (ADDRESS= (COMMUNITY=tcpcom.world) ";
+      txt+="\r\n                     (PROTOCOL=TCP) ";
+      txt+="\r\n                     (Host=dhttlg1.sbms.sbc.com) ";
+      txt+="\r\n                     (Port=1521)";
+      txt+="\r\n   ) ";
+      txt+="\r\n       (CONNECT_DATA= (SID=D2BL12C) ";
+      txt+="\r\n                          (GLOBAL_NAME=D2BL12C.world)";
+      txt+="\r\n   )";
+			txt+="\r\n )";
+			txt+="\r\n";
+			txt+="\r\nAnd we need to manually delete the blank spaces and line breaks to generate a string which we can use in TOAD through Citrix.";
+			txt+="\r\nThis option will reduce this manual work. Copy the string and paste it in the Input String textarea, click on the Format button and get the converted string in Output String textbox.";
+			alert(txt);
+		}
+		function help_option2()
+		{
+			txt="A lot of times we get a string like below as the connect string to an oracle instance. ";
+			txt+="\r\n(DESCRIPTION= ";
+			txt+="\r\n              (ADDRESS= (COMMUNITY=tcpcom.world) ";
+ 
+			txt="Sometimes we get a list of account ids in an excel and we need to check some other column values in some other table only for those account ids. In that case we need to use the IN clause in the WHERE statement and use the values from the excel. This option will help to generate the IN clause.";
+			txt+="\r\n";
+			txt+="\r\ne.g. we have the following values in the excel:";
+			txt+="\r\n";
+			txt+="\r\n100";
+			txt+="\r\n200";
+			txt+="\r\n300";
+			txt+="\r\n400";
+			txt+="\r\n500";
+			txt+="\r\n";
+			txt+="\r\nCopy the values from excel and paster in the input text area and click Format button.";
+			txt+="\r\nThis option will generate string as (100,200,300,400,500) which can easily be used in the SQL IN clause."
+			txt+="\r\n";
+			txt+="\r\nIf the datatype is String, the String radio button should be selected and the generated string will be like below."
+			txt+="\r\n('100','200','300','400','500')";
+			alert(txt);
+		}
+		function help_option3()
+		{
+			txt="Sometimes we get SQL statement which contains unwanted line breaks as shown below:"
+			txt+="\r\n";
+			txt+="\r\nSELECT * ";
+			txt+="\r\n";
+			txt+="\r\nFROM TABLE-A";
+			txt+="\r\n";
+			txt+="\r\nWHERE COLUMN-A = 1000";
+			txt+="\r\n";
+			txt+="\r\nIn order to execute the query in TOAD, we need to delete those line breaks manually and if the query is big (spread over multiple lines), it is time consuming.";
+			txt+="\r\nThis option will remove those additional line breaks and will produce output like shown below:";
+			txt+="\r\n";
+			txt+="\r\nSELECT * ";
+			txt+="\r\nFROM TABLE-A";
+			txt+="\r\nWHERE COLUMN-A = 1000";
+			alert(txt);
+		}
+		
+		function help_option4()                                                                                                                                                        
+		{                                                                                                                                                                              
+			txt="Sometimes we need to search a set of entities in unix file using egrep command. This option will arrange entities for egrep command like below"                                                                                                                                                                                                                                    			                                                                                                                                        			                                                                                                                                        			                                                                                                                                        			                                                                                                                                        			                                                                                                                                        			                                                                                                                                        
+			txt+="\r\n'a|b|c|d'";  			                                                                  			                                                                  			                                                                  			                                                                  			                                                                  
+			alert(txt);                                                                                                                                                                  
+		}                                                                                                                                                                              		                                                                                                                                                                               																						
+		
+		function help_option5()                                                                                                                                                                                                                                                                                                                                                             
+		{                                                                                                                                                                                                                                                                                                                                                                                   
+			txt="Sometimes we need to search a set of Defects/Test Cases in QC using ATT ids , PMTs , Defect IDs etc ... "                                                                                                                                                                                                                              
+			txt+="\r\nThis option will format entities for QC search by inserting And/Or in between like below";
+			txt+="\r\nA And B And C";  	
+			txt+="\r\nA Or B Or C"; 		                                                                  			                                                                  			                                                                  			                                                                  			                                                      
+			alert(txt);                                                                                                                                                                                                                                                                                                                                                                       
+		}                                                                                                                                                                              		                                                                                                                                                                               										
+		                                                                      	                                                                                                                                                                                                                                                                                                              
+//-->
+</script>
+ 
+ 
+ 
+</HEAD>
+<BODY>
+		<table align="center" border="0" cellPadding="0" cellSpacing="1" width="65%">
+			<TR>
+				<TD colspan="2" align="center">
+					<font face="Verdana" color="red" size="2">					
+						<b>String Formatter (Version: 3.0)</b>
+					</font>
+				</TD>
+			</TR>
+			<TR>
+				<TD height="4">
+				</TD>
+				<TD>
+				</TD>
+			</TR>
+			<TR>
+				<TD align="left" width="30%">
+					<font face="Verdana" size="2">					
+						<b>Please select one of the options:</b>
+					</font>
+				</TD>
+				<TD>
+					<table align="center" border="0" cellPadding="0" cellSpacing="1" width="100%">
+						<tr>
+							<td>
+								<input type="radio" name="select" id="select" value="A">
+								<font face="Verdana" size="2">
+									TNSNAMES.ORA ConnectString Formatting 
+									<a href="javascript:help_option1()">Help</a>
+								</font>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<input type="radio" name="select" id="select" value="B"><font face="Verdana" size="2"> Generating values for IN clause in WHERE (</font>
+								<input type="radio" name="datatype" id="datatype" value="BA"><font face="Verdana" size="2">Number</font>
+								<input type="radio" name="datatype" id="datatype" value="BB">
+								<font face="Verdana" size="2">String)
+									<a href="javascript:help_option2()">Help</a>
+								</font>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<input type="radio" name="select" id="select" value="C">
+								<font face="Verdana" size="2">Removing extra line breaks for SQL
+									<a href="javascript:help_option3()">Help</a>
+								</font>
+							</td>
+							<td>
+							</td>
+						</tr>
+						<tr>                                                                  
+							<td>                                                                
+								<input type="radio" name="select" id="select" value="D">                      
+								<font face="Verdana" size="2">Formatting values for egrep command
+									<a href="javascript:help_option4()">Help</a>                    
+								</font>                                                           
+							</td>                                                               
+							<td>                                                                
+							</td>                                                               
+						</tr>  
+					<tr>                                                                                                                                  
+						<td>                                                                                                                                
+							<input type="radio" name="select" id="select" value="E"><font face="Verdana" size="2"> Formatting values for QC (</font>       
+							<input type="radio" name="datatype" id="datatype" value="CA"><font face="Verdana" size="2">And</font>                                
+							<input type="radio" name="datatype" id="datatype" value="CB">                                                                                   
+							<font face="Verdana" size="2">Or)                                                                                             
+								<a href="javascript:help_option5()">Help</a>                                                                                    
+							</font>                                                                                                                           
+						</td>                                                                                                                               
+					</tr>                                                                                                                                 
+					<tr>                                                                                                                                  
+					
+						                                                               
+				</table>
+				</TD>
+			</TR>
+			<TR>
+				<TD>
+				</TD>
+				<TD>
+				</TD>
+			</TR>
+			<TR>
+				<TD align="left">
+					<font face="Verdana" size="2">					
+						<b>Input String:</b>
+					</font>
+				</TD>
+				<TD>
+					<textarea name="str1" id="str1" rows="12" cols="60"></textarea>
+				</TD>
+			</TR>
+			<TR>
+				<TD>
+				</TD>
+				<TD>
+				</TD>
+			</TR>
+			<TR>
+				<TD>
+				</TD>
+				<TD>
+						<input type="button" value="Format" name="generate" onClick="generate()">
+						<input type="button" value="Reset" name="reset" onClick="clean()">
+				</TD>
+			</TR>
+			<TR>
+				<TD>
+				</TD>
+				<TD>
+				</TD>
+			</TR>
+			<TR>
+				<TD align="left">
+					<font face="Verdana" size="2">					
+						<b>Output String:</b>
+					</font>
+				</TD>
+				<TD>
+					<textarea name="str2" id="str2" rows="12" cols="60" spellcheck="false"></textarea>
+				</TD>
+			</TR>
+		</table>
+</BODY>
+</HTML>
